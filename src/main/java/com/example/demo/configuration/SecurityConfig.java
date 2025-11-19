@@ -1,6 +1,5 @@
 package com.example.demo.configuration;
 
-
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
@@ -23,7 +22,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -39,28 +37,6 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/student/register").permitAll()
-                        .requestMatchers("/api/student/forgot-password").permitAll()
-                        .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/v3/api-docs.yaml",
-                                "/swagger-ui.html",
-                                "/swagger-resources/**",
-                                "/webjars/**")
-                        .permitAll()
-                        .requestMatchers("/api/general/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers(
-                                "/api/exam/snapshot/**",
-                                "/api/exam/paper/**",
-                                "/api/exam/grade")
-                        .hasAnyRole("ADMIN", "TEACHER", "STUDENT")
-                        .requestMatchers("/api/exam/**").authenticated()
-                        .requestMatchers("/api/class/**").hasAnyRole("ADMIN", "TEACHER")
-                        .requestMatchers("/api/teacher/**").hasAnyRole("ADMIN", "TEACHER")
-                        .requestMatchers("/api/question/**").hasAnyRole("ADMIN", "TEACHER")
-                        .requestMatchers("/api/student/**").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
