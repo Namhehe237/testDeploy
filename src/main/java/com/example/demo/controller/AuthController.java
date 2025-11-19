@@ -1,0 +1,38 @@
+package com.example.demo.controller;
+
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.service.AuthService;
+
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
+public class AuthController {
+
+    private final AuthService authService;
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+        try {
+            AuthResponse response = authService.authenticate(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    AuthResponse.builder()
+                            .accessToken("Error: " + e.getMessage())
+                            .build());
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest request) {
+        return ResponseEntity.ok(authService.register(request));
+    }
+
+}
